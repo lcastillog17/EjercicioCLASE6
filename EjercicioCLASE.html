@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EjercicioClase6</title>
+  </head>
+  <body>
+    <button id="cargar">Cargar</button>
+    <p id="resultado"></p>
+
+
+    <script defer>
+        const boton = document.getElementById("cargar");
+        boton?.addEventListener("click", msg);
+  
+        function seleccionarArchivo(nombreArchivo) {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve(nombreArchivo);
+            }, 1000);
+          });
+        }
+  
+        function verificarFormato(nombreArchivo) {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              if (nombreArchivo.endsWith(".txt")) {
+                resolve(true);
+              } else {
+                resolve(false);
+              }
+            }, 1000);
+          });
+        }
+  
+        function verificarTamanio(nombreArchivo, formatoValido) {
+          const tamanio = Math.round(Math.random() * 1000);
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              if (formatoValido && tamanio < 500) {
+                resolve(true);
+              } else {
+                resolve(false);
+              }
+            }, 1000);
+          });
+        }
+  
+        function cargarArchivo(nombreArchivo, formatoValido, tamanioValido) {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              if (formatoValido && tamanioValido) {
+                resolve("Archivo cargado");
+              } else {
+                reject("No se pudo cargar el archivo");
+              }
+            }, 1000);
+          });
+        }
+  
+        async function msg() {
+          try {
+            const seleccion = await seleccionarArchivo("archivo.txt");
+            const formatoValido = await verificarFormato(seleccion);
+            const tamanioValido = await verificarTamanio(
+              seleccion,
+              formatoValido
+            );
+            const cargaArchivo = await cargarArchivo(
+              seleccion,
+              formatoValido,
+              tamanioValido
+            );
+            console.log(cargaArchivo);
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      </script>
+  </body>
+</html>
